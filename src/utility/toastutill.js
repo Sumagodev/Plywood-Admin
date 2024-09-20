@@ -13,5 +13,6 @@ export const toastError = (error) => {
     else toast.error('ERROR')
 }
 export const toastSuccess = (message) => {
-    toast.success(message)
+    toast.success("deleted")
 }
+

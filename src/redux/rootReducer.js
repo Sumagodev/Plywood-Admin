@@ -33,7 +33,7 @@ import Seo from '@src/views/seo/store'
 import topup from '@src/views/Topup/store'
 import newsLetter from '@src/views/products/newsLetter/store'
 import homepageBanners from '@src/views/homepageBanners/store'
-
+import quickenqury from '@src/views/apps/Quick reviews/store'
 const rootReducer = {
   auth,
   categories,
@@ -68,7 +68,8 @@ const rootReducer = {
   newsLetter,
   SalesUsers,
   homepageBanners,
-  Seo
+  Seo,
+  quickenqury
 
 }
 
