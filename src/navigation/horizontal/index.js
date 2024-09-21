@@ -10,10 +10,10 @@ import product from './product'
 import subscriptions from './subscriptions'
 import tickets from './tickets'
 import Seo from './Seo'
-
+import quickenquiry from './quickenquiry'
 // ** Merge & Export
 // export default [...dashboards, ...apps, ...uiElements, ...formsAndTables, ...pages, ...charts, ...others]
-export default [...dashboards, ...apps, ...product, ...formsAndTables, ...subscriptions, ...flashSales, ...tickets, ...blogs, ...BlogVideos, ...Seo, 
+export default [...dashboards, ...apps, ...product, ...formsAndTables, ...subscriptions, ...flashSales, ...tickets, ...blogs, ...BlogVideos, ...Seo,
 {
     id: 'dashboardas',
     title: 'News Letter',
@@ -79,5 +79,12 @@ export default [...dashboards, ...apps, ...product, ...formsAndTables, ...subscr
     icon: <Users />,
     roleArr: ["ADMIN", ROLES_CONSTANT.SUBADMIN],
     navLink: '/user-requirements'
+},
+{
+    id: 'dashboards1',
+    title: 'Quick Enquiery',
+    icon: <Users />,
+    roleArr: ["ADMIN", ROLES_CONSTANT.SUBADMIN],
+    navLink: '/user-quickenqury'
 }
 ]

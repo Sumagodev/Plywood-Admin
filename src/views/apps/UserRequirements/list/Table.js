@@ -61,8 +61,8 @@ const UsersWithSubscription = () => {
   const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
   const [rolesOptions, setrolesOptions] = useState([])
   const [editModal, setEditModal] = useState(false)
-      const [startDate, setstartDate] = useState()
-      const [endDate, setEndDate] = useState()
+  const [startDate, setstartDate] = useState()
+  const [endDate, setEndDate] = useState()
   // ** Function to toggle sidebar
 
   // ** Get data on mount
@@ -298,7 +298,7 @@ const UsersWithSubscription = () => {
       selector: row => row.address,
       cell: row => <span className='text-capitalize'>{row.address}</span>
     },
-     {
+    {
       name: 'Actions',
       minWidth: '100px',
       cell: row => (
@@ -307,11 +307,11 @@ const UsersWithSubscription = () => {
           <Button color='danger' className='ms-2 btn-sm'
             onClick={e => {
               e.preventDefault()
-                         store.dispatch(deleteUserRequirement(row._id))
+              store.dispatch(deleteUserRequirement(row._id))
             }}
           >    <Trash2 size={14} /></Button>
         </>
-      
+
       )
     }
   ]

@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 // ** Axios Imports
 import { getAllUsersWithSubsciption } from '../../../../services/user.service'
-import { toastError } from '../../../../utility/toastutill'
+import { toastError, toastSuccess } from '../../../../utility/toastutill'
 import { deleteUserRequirementstApi, getAllUserRequirements } from '../../../../services/UserRequirements.service'
 import { getAllquickenqury, deletequickenqury } from '../../../../services/Quickrequiries.service'
 export const getAllquickenquries = createAsyncThunk('appUsers/getAllquickenquries', async params => {
@@ -62,9 +62,9 @@ export const deletequickenquries = createAsyncThunk(
     try {
       const res = await deletequickenqury(id)
       if (res.data.success) {
-        toastSuccess(res.data.message)
+        toastSuccess(res.message)
         await dispatch(getAllquickenquries())
-      }
+      } 
       return id
     } catch (error) {
       toastError(error)
