@@ -18,6 +18,8 @@ const AddTopup = () => {
 
   const [includesFlashSales, setIncludesFlashSales] = useState(false)
   const [includesAdvertisements, setIncludesAdvertisements] = useState(false)
+  const [includesOpportunities, setIncludesOpportunities] = useState(false)
+  const [includesBannerImages, setIncludesBannerImages] = useState(false)
 
 
   const [isEditing, setIsEditing] = useState(false)
@@ -29,6 +31,13 @@ const AddTopup = () => {
   const [saleDays, setSaleDays] = useState(0)
   const [numberOfAdvertisement, setNumberOfAdvertisement] = useState(0)
   const [advertisementDays, setAdvertisementDays] = useState(0)
+
+  const [numberOfOpportunity, setNumberOfOpportunity] = useState(0)
+  const [opportunityDays, setOpportunityDays] = useState(0)
+
+  const [numberOfBannerImages, setNumberOfBannerImages] = useState(0)
+  const [bannerimagesDays, setBannerImagesDays] = useState(0)
+
   const [rolesOptions, setrolesOptions] = useState([])
   const [role, setRole] = useState("")
 
@@ -75,6 +84,30 @@ const AddTopup = () => {
 
     }
 
+    if (includesOpportunities) {
+
+      if (parseInt(numberOfOpportunity) < 0) {
+        toastError('Please Fill No of Opportunity with a valid input (more than 0)')
+        return 0
+      }
+      if (parseInt(opportunityDays) < 0) {
+        toastError('Please Fill No of days of Opportunity with a valid input (more than 0)')
+        return 0
+      }
+    }
+
+    if (includesBannerImages) {
+
+      if (parseInt(numberOfBannerImages) < 0) {
+        toastError('Please Fill No of Banner with a valid input (more than 0)')
+        return 0
+      }
+      if (parseInt(bannerimagesDays) < 0) {
+        toastError('Please Fill No of days of Banner with a valid input (more than 0)')
+        return 0
+      }
+    }
+
     if (parseInt(price) < 0) {
       toastError('Please Fill Price with a valid input (more than 0)')
       return 0
@@ -92,6 +125,8 @@ const AddTopup = () => {
       messageArr,
       includesFlashSales,
       includesAdvertisements,
+      includesOpportunities,
+      includesBannerImages,
       role: role?.value
     }
 
@@ -104,6 +139,16 @@ const AddTopup = () => {
     if (includesFlashSales) {
       obj.numberOfSales = numberOfSales
       obj.saleDays = saleDays
+    }
+
+    if (includesOpportunities) {
+      obj.numberOfOpportunity = numberOfOpportunity
+      obj.opportunityDays = opportunityDays
+    }
+
+    if (includesBannerImages) {
+      obj.numberOfBannerImages = numberOfBannerImages
+      obj.bannerimagesDays = bannerimagesDays
     }
 
     if (isEditing === true) {
@@ -134,6 +179,14 @@ const AddTopup = () => {
       setIncludesAdvertisements(TopupObj?.includesAdvertisements)
       setNumberOfAdvertisement(TopupObj?.numberOfAdvertisement)
       setAdvertisementDays(TopupObj?.advertisementDays)
+
+      setIncludesOpportunities(TopupObj?.includesOpportunities)
+      setNumberOfOpportunity(TopupObj?.numberOfOpportunity)
+      setOpportunityDays(TopupObj?.opportunityDays)
+
+      setIncludesBannerImages(TopupObj?.includesBannerImages)
+      setNumberOfBannerImages(TopupObj?.numberOfBannerImages)
+      setBannerImagesDays(TopupObj?.bannerimagesDays)
     } else {
       setname("")
       setDescription("")
@@ -144,6 +197,15 @@ const AddTopup = () => {
       setIncludesAdvertisements(false)
       setNumberOfAdvertisement(0)
       setAdvertisementDays(0)
+
+      setIncludesOpportunities(false)
+      setNumberOfOpportunity(0)
+      setOpportunityDays(0)
+
+      setIncludesBannerImages(false)
+      setNumberOfBannerImages(0)
+      setBannerImagesDays(0)
+
       setNumberOfSales(1)
       setMessageArr([{ message: "" }])
     }
@@ -252,6 +314,20 @@ const AddTopup = () => {
             </Label>
             <Input type='checkbox' className='ms-3' id='basicInput' checked={includesAdvertisements} onChange={(e) => setIncludesAdvertisements(e.target.checked)} />
           </Col>
+
+          <Col className='mb-1 my-3' xl='2' md='2' sm='12'>
+            <Label className='form-label' for='basicInput'>
+              Includes Opprtunities
+            </Label>
+            <Input type='checkbox' className='ms-3' id='basicInput' checked={includesOpportunities} onChange={(e) => setIncludesOpportunities(e.target.checked)} />
+          </Col>
+
+          <Col className='mb-1 my-3' xl='2' md='2' sm='12'>
+            <Label className='form-label' for='basicInput'>
+              Includes Banner
+            </Label>
+            <Input type='checkbox' className='ms-3' id='basicInput' checked={includesBannerImages} onChange={(e) => setIncludesBannerImages(e.target.checked)} />
+          </Col>
         </Row>
         <Row>
           {
@@ -291,6 +367,45 @@ const AddTopup = () => {
             </>
           }
         </Row>
+        <Row>
+          {
+            includesOpportunities &&
+            <>
+              <Col className='mb-1' xl='6' md='6' sm='12'>
+                <Label className='form-label' for='basicInput'>
+                  Number Of Opportunities allowed in this Topup
+                </Label>
+                <Input type='number' id='basicInput' value={numberOfOpportunity} onChange={(e) => setNumberOfOpportunity(e.target.value)} placeholder='Enter number Of Opportunities allowed in this Topup' />
+              </Col>
+              <Col className='mb-1' xl='6' md='6' sm='12'>
+                <Label className='form-label' for='basicInput'>
+                  Number Of days for which Opportunity are allowed in this Topup
+                </Label>
+                <Input type='number' id='basicInput' value={opportunityDays} onChange={(e) => setOpportunityDays(e.target.value)} placeholder='Enter the number Of days for which Opportunities are allowed in this Topup' />
+              </Col>
+            </>
+          }
+        </Row>
+        <Row>
+          {
+            includesBannerImages &&
+            <>
+              <Col className='mb-1' xl='6' md='6' sm='12'>
+                <Label className='form-label' for='basicInput'>
+                  Number Of Banners allowed in this Topup
+                </Label>
+                <Input type='number' id='basicInput' value={numberOfBannerImages} onChange={(e) => setNumberOfBannerImages(e.target.value)} placeholder='Enter number Of Banners allowed in this Topup' />
+              </Col>
+              <Col className='mb-1' xl='6' md='6' sm='12'>
+                <Label className='form-label' for='basicInput'>
+                  Number Of days for which Banners are allowed in this Topup
+                </Label>
+                <Input type='number' id='basicInput' value={bannerimagesDays} onChange={(e) => setBannerImagesDays(e.target.value)} placeholder='Enter the number Of days for which Banners are allowed in this Topup' />
+              </Col>
+            </>
+          }
+        </Row>  
+
         <Row>
           <Col className='mb-1' xl='6' md='6' sm='12'>
             <Label className='form-label' for='basicInput'>

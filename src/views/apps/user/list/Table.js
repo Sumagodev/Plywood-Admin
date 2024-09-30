@@ -96,7 +96,7 @@ const UsersList = () => {
     if (!(role === ROLES_CONSTANT.SALES || role === ROLES_CONSTANT.FIELDUSER)) {
       arr = [{ label: "All", value: "All" }, ...roleSelect]
     } else {
-      arr = [...roleSelect.filter(el => el.label === ROLES_CONSTANT.DISTRIBUTOR || el.label === ROLES_CONSTANT.DEALER || el.label === ROLES_CONSTANT.MANUFACTURER)]
+      arr = [...roleSelect.filter(el => el.label === ROLES_CONSTANT.DISTRIBUTOR || el.label === ROLES_CONSTANT.DEALER || el.label === ROLES_CONSTANT.MANUFACTURER || el.label === ROLES_CONSTANT.RETAILER || el.label === ROLES_CONSTANT.CONTRACTOR)]
 
     }
     setrolesOptions(arr)
@@ -331,6 +331,14 @@ const UsersList = () => {
         icon: Slack
       },
       APPROVERS: {
+        class: 'text-danger',
+        icon: Slack
+      },
+      RETAILER: {
+        class: 'text-danger',
+        icon: Slack
+      },
+      CONTRACTOR: {
         class: 'text-danger',
         icon: Slack
       }
