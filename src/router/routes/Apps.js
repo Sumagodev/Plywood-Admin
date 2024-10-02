@@ -30,7 +30,7 @@ import HomepageBanners from '../../views/homepageBanners/list'
 import WebsiteData from '../../views/WebsiteData/list'
 import Seo from '../../views/seo/list'
 import AddSeo from '../../views/seo/list/AddSeo'
-
+import HomepageBannersimges from '../../views/homepageBannersimges/list'
 const Chat = lazy(() => import('../../views/apps/chat'))
 const Todo = lazy(() => import('../../views/apps/todo'))
 const Email = lazy(() => import('../../views/apps/email'))
@@ -360,6 +360,11 @@ const AppRoutes = [
   {
     element: <HomepageBanners />,
     path: '/apps/homepageBanners',
+    roleArr: ["ADMIN"]
+  },
+  {
+    element: <HomepageBannersimges/>,
+    path: '/apps/homepageBannersimges',
     roleArr: ["ADMIN"]
   }
 ]

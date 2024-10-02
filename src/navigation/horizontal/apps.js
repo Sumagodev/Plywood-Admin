@@ -92,7 +92,7 @@ export default [
             id: 'HomepageBanners',
             title: 'Homepage Banners',
             icon: <Circle />,
-            navLink: '/apps/homepageBanners',
+            navLink: '/apps/homepageBannersimges',
             roleArr: ["ADMIN", "SUBADMIN"]
           }
 
