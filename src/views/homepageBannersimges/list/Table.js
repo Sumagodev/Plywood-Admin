@@ -163,7 +163,7 @@ const TicketList = () => {
       name: 'Url',
       sortable: false,
       sortField: 'index',
-      selector: row => <img src={generateFilePath(row?.image)} style={{ height: 50, width: 50 }} />
+      selector: row => <>{row?.url}</>
     },
     {
       name: 'Image',
