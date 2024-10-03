@@ -95,7 +95,7 @@ export const deleteHomepageBanners = createAsyncThunk('HomepageBanners/deleteHom
 
 
 export const HomepageBannerslice = createSlice({
-  name: 'HomepageBanners',
+  name: 'homepageBannersimges',
   initialState: {
     data: [],
     params: {},

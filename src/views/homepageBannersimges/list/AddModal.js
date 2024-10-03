@@ -20,7 +20,7 @@ import { generateFilePath } from '../../../services/url.service'
 
 const AddModal = ({ open, toggleSidebar }) => {
     // ** States
-    const store = useSelector(state => state.homepageBanners)
+    const store = useSelector(state => state.homepageBannersimges)
     const [isUpdated, setIsUpdated] = useState(false)
     const [image, setimage] = useState()
     const [url, seturl] = useState("")
@@ -31,26 +31,30 @@ const AddModal = ({ open, toggleSidebar }) => {
     // ** Function to handle form submit
     const onSubmit = () => {
         toggleSidebar()
+    
         if (isUpdated === true) {
-            dispatch(
-                updateHomepageBanner({
-                    image,
-                    id: store?.selectedObj?._id,
-                    url,
-                    type: "Adminbanner"
-                })
-            )
+            // Ensure a valid _id is present before dispatching the update action
+            if (store?.selectedObj?._id) {
+                dispatch(
+                    updateHomepageBanner({
+                        image,
+                        id: store.selectedObj._id, // Ensure valid _id is passed
+                        url,
+                        type: "Adminbanner"
+                    })
+                )
+            } else {
+                console.error("Error: No valid _id provided for updating the banner.")
+            }
         } else {
             dispatch(
-                updateHomepageBanner({
+                addHomepageBanners({
                     image,
-                    id: store?.selectedObj?._id,
                     url,
                     type: "Adminbanner"
                 })
             )
         }
-
     }
 
     const handleSidebarClosed = () => {
