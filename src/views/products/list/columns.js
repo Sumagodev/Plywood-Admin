@@ -140,21 +140,22 @@ export const columns = [
     selector: row => row.approved,
     width: "15%",
     cell: row => (
-      //   <div className='form-check form-switch'>
-      //   <Input type='switch' name='customSwitch' id='exampleCustomSwitch' defaultChecked={row.approved !== "PENDING" ? 'true' : "false"}  onChange={ () => handleStatus(row._id, row.approved)}  />
+      <div className='form-check form-switch'>
+        <Input type='switch' name='customSwitch' id='exampleCustomSwitch' defaultChecked={row.approved}
+          // onChange={() => handleisBlocked(row._id, !row.isBlocked)}
+          onChange={e => {
+            e.preventDefault()
+            store.dispatch(
+              updateProduct({
+                approved: row.approved === "APPROVED" ? "PENDING" : "APPROVED",
+                id: row._id
+              })
+            )
+          }}
+        />
 
-      // </div>
-      <Badge style={{ cursor: "pointer" }} onClick={e => {
-        e.preventDefault()
-        store.dispatch(
-          updateProduct({
-            approved: row.approved === "APPROVED" ? "PENDING" : "APPROVED",
-            id: row._id
-          })
-        )
-      }} className='text-capitalize' color={statusObj[row.approved !== "PENDING" ? 'active' : 'pending']} pill>
-        {row.approved}
-      </Badge>
+      </div>
+   
     )
   },
 

@@ -18,6 +18,7 @@ import AllSubscribedUsers from '../../views/Reports/SubscriptionsReport/list/All
 import LeadsList from '../../views/Reports/Leads/list'
 import UserRequirements from '../../views/apps/UserRequirements/list'
 import QuickEnquiery from '../../views/apps/Quick reviews/list'
+import VerifiedUsers from '../../views/apps/VerifiedUser/list'
 import Blogs from '../../views/Blogs/list'
 import Addblog from '../../views/Blogs/list/AddBlog'
 import BlogVideo from '../../views/BlogVideo/list'
@@ -315,6 +316,10 @@ const AppRoutes = [
   {
     element: <QuickEnquiery />,
     path: '/user-quickenqury'
+  },
+  {
+    element: <VerifiedUsers />,
+    path: '/verified-user'
   },
   {
     element: <Blogs />,

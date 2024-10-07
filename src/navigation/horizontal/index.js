@@ -86,5 +86,12 @@ export default [...dashboards, ...apps, ...product, ...formsAndTables, ...subscr
     icon: <Users />,
     roleArr: ["ADMIN", ROLES_CONSTANT.SUBADMIN],
     navLink: '/user-quickenqury'
+},
+{
+    id: 'dashboards2',
+    title: 'Verified User',
+    icon: <Users />,
+    roleArr: ["ADMIN", ROLES_CONSTANT.SUBADMIN],
+    navLink: '/verified-user'
 }
 ]

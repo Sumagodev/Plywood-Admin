@@ -35,7 +35,7 @@ import newsLetter from '@src/views/products/newsLetter/store'
 import homepageBanners from '@src/views/homepageBanners/store'
 import homepageBannersimges from '@src/views/homepageBannersimges/store'
 import quickenqury from '@src/views/apps/Quick reviews/store'
-
+import VerifiedUser from '@src/views/apps/VerifiedUser/store'
 const rootReducer = {
   auth,
   categories,
@@ -72,7 +72,8 @@ const rootReducer = {
   homepageBanners,
   Seo,
   quickenqury,
-  homepageBannersimges
+  homepageBannersimges,
+  VerifiedUser
 
 }
 
