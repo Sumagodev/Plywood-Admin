@@ -50,7 +50,7 @@ const UsersWithSubscription = () => {
   const userData = useSelector(state => state.VerifiedUser)
   const [selectedUser, setSelectedUser] = useState({})
   // ** States
-  const [sort, setSort] = useState('desc')
+  const [sort, setSort] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [sortColumn, setSortColumn] = useState('name')
@@ -287,7 +287,9 @@ const UsersWithSubscription = () => {
       sortable: true,
       sortField: 'verifiedAt',
       selector: row => row.verifiedAt,
-      cell: row => <span className='text-capitalize'>{row.verifiedAt}</span>
+      // cell: row => <span className='text-capitalize'>{row.verifiedAt}</span>
+      cell: row => new Date(row.verifiedAt).toDateString()
+
     },
 
     {
