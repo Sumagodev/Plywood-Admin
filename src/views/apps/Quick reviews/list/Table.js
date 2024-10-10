@@ -67,7 +67,6 @@ const UsersWithSubscription = () => {
 
   // ** Get data on mount
   useEffect(() => {
-    // dispatch(getAllData())
     dispatch(
       getAllquickenquries({
         sort,
@@ -77,14 +76,12 @@ const UsersWithSubscription = () => {
         perPage: rowsPerPage,
         role: currentRole.value,
         status: currentStatus.value,
-        showName: true
-        // currentPlan: currentPlan.value
+        startDate,
+        endDate
       })
     )
-    // ** Set Roles
-
-
-  }, [dispatch, userData?.data?.length, sort, sortColumn, currentPage])
+  }, [dispatch, currentPage, rowsPerPage, sort, sortColumn, searchTerm, currentRole.value, currentStatus.value, startDate, endDate])
+  
 
   // ** Function in get data on page change
   const handlePagination = page => {
@@ -151,30 +148,28 @@ const UsersWithSubscription = () => {
     )
   }
 
-  // ** Custom Pagination
   const CustomPagination = () => {
-    const count = Number(Math.ceil(userData.total / rowsPerPage))
-
+    const count = Math.ceil(userData.total / rowsPerPage)
+  
     return (
       <ReactPaginate
         previousLabel={''}
         nextLabel={''}
         pageCount={count || 1}
-        activeClassName='active'
-        forcePage={currentPage !== 0 ? currentPage - 1 : 0}
         onPageChange={page => handlePagination(page)}
+        containerClassName={'pagination react-paginate justify-content-end my-2 pe-1'}
+        activeClassName='active'
+        forcePage={currentPage - 1}
+        pageLinkClassName={'page-link'}
         pageClassName={'page-item'}
-        nextLinkClassName={'page-link'}
         nextClassName={'page-item next'}
         previousClassName={'page-item prev'}
+        nextLinkClassName={'page-link'}
         previousLinkClassName={'page-link'}
-        pageLinkClassName={'page-link'}
-        containerClassName={'pagination react-paginate justify-content-end my-2 pe-1'}
       />
     )
   }
-
-
+  
   const handleStatus = async (id, status) => {
     try {
       const obj = {

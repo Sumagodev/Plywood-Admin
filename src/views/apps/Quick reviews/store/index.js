@@ -6,7 +6,7 @@ import { getAllUsersWithSubsciption } from '../../../../services/user.service'
 import { toastError, toastSuccess } from '../../../../utility/toastutill'
 import { deleteUserRequirementstApi, getAllUserRequirements } from '../../../../services/UserRequirements.service'
 import { getAllquickenqury, deletequickenqury } from '../../../../services/Quickrequiries.service'
-export const getAllquickenquries = createAsyncThunk('appUsers/getAllquickenquries', async params => {
+export const getAllquickenquries = createAsyncThunk('productCategoriesSlice/getAllquickenquries', async params => {
   try {
     let query = ``
     if (params.sort) {
@@ -57,14 +57,14 @@ export const getAllquickenquries = createAsyncThunk('appUsers/getAllquickenqurie
 
 
 export const deletequickenquries = createAsyncThunk(
-  "appUsers/deleteById",
+  "productCategoriesSlice/deleteById",
   async (id, { dispatch }) => {
     try {
       const res = await deletequickenqury(id)
       if (res.data.success) {
         toastSuccess(res.message)
         await dispatch(getAllquickenquries())
-      } 
+      }
       return id
     } catch (error) {
       toastError(error)
@@ -72,24 +72,29 @@ export const deletequickenquries = createAsyncThunk(
     }
   }
 )
-export const userRequirementSlice = createSlice({
-  name: 'userRequirement',
+export const productCategoriesSlice = createSlice({
+  name: 'productCategories',
   initialState: {
     data: [],
     total: 1,
     params: {},
     allData: [],
-    selectedUser: null,
+    selectedCategory: null,
     success: false
   },
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(getAllquickenquries.fulfilled, (state, action) => {
-      state.data = action?.payload?.data
-      state.total = action?.payload?.totalPages
-    })
+    builder
+      
+      .addCase(getAllquickenquries.fulfilled, (state, action) => {
+        console.log(action.payload)
+        state.data = action.payload.data
+        state.params = action.payload.params
+        state.total = action.payload.totalPages
+      })
+     
   }
 })
 
+export default productCategoriesSlice.reducer
 
-export default userRequirementSlice.reducer

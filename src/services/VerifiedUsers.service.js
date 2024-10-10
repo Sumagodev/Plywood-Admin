@@ -5,7 +5,7 @@ import BaseUrl from './url.service'
 const serverUrl = `${BaseUrl}/VerifiedUser`
 
 export const getAllverifiedusers = async (query) => {
-    return axiosInstance.get(`${serverUrl}/getVerifiedUser`)
+    return axiosInstance.get(`${serverUrl}/getVerifiedUser/?${query}`)
 }
 
 export const deleteverifiedusers = async (id) => {
