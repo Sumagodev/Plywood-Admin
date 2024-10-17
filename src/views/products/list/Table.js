@@ -2,43 +2,42 @@
 import { Fragment, useState, useEffect } from 'react'
 
 // ** Table Columns
-import { columns } from './columns'
+// ** React Imports
+import { Link } from 'react-router-dom'
+
+// ** Custom Components
+import Avatar from '@components/avatar'
 
 // ** Store & Actions
-import { getAllProducts, getProduct } from '../store'
+import { store } from '@store/store'
+import { getProduct, deleteProduct, updateProduct } from '../store'
+
+// ** Icons Imports
+import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2, Archive, Edit, ChevronDown } from 'react-feather'
+
+// ** Reactstrap Imports
+import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, Input, Label, Row, Col, Card } from 'reactstrap'
+import { updateProductApi } from '../../../services/product.service'
+import { toastError, toastSuccess } from '../../../utility/toastutill'
+
+// ** Store & Actions
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
 import Select from 'react-select'
 import ReactPaginate from 'react-paginate'
 import DataTable from 'react-data-table-component'
-import { ChevronDown, Share, Printer, FileText, File, Grid, Copy } from 'react-feather'
 
 // ** Utils
 import { selectThemeColors } from '@utils'
 
 // ** Reactstrap Imports
-import {
-  Row,
-  Col,
-  Card,
-  Input,
-  Label,
-  Button,
-  CardBody,
-  CardTitle,
-  CardHeader,
-  DropdownMenu,
-  DropdownItem,
-  DropdownToggle,
-  UncontrolledDropdown
-} from 'reactstrap'
+
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import { ROLES_CONSTANT } from '../../../utility/constant'
-import { Link } from 'react-router-dom'
 
 // ** Table Header
 const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handleFilter, searchTerm }) => {
@@ -185,6 +184,35 @@ const UsersList = () => {
 
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
+  const handleStatus = async (id, status) => {
+    try {
+      // Create an object with the new status
+      const obj = {
+        approved: status // Directly use the status passed from the radio buttons
+      }
+
+      // Call the API to update the product status
+      const { data: res } = await updateProductApi(obj, id)
+
+      // Show success message if the response contains a message
+      if (res.message) {
+        toastSuccess(res.message)
+      }
+      dispatch(getProduct({
+        sort,
+        sortColumn,
+        q: searchTerm,
+        perPage: rowsPerPage,
+        page: currentPage,
+        role: currentRole.value,
+        status: currentStatus.value
+      }))
+    } catch (error) {
+      // Show error message if the API call fails
+      toastError(error)
+    }
+  }
+
 
   // ** Get data on mount
   useEffect(() => {
@@ -361,7 +389,160 @@ const UsersList = () => {
     }
 
   }, [store.selectedCategory])
+  const statusObj = {
+    pending: 'light-warning',
+    active: 'light-success',
+    inactive: 'light-secondary'
+  }
 
+  const columns = [
+    // {
+    //   name: 'S.no.',
+    //   sortable: false,
+    //   sortField: 'name',
+    //   width: "25%",
+    //   cell: (row, i) => i + 1
+    // },
+    {
+      name: 'Name',
+      sortable: true,
+      sortField: 'name',
+      width: "20%",
+      cell: row => row.name
+    },
+    {
+      name: 'Price',
+      sortable: true,
+      sortField: 'Price',
+      width: "10%",
+      cell: row => row.price
+    },
+    {
+      name: 'Status',
+      sortable: true,
+      sortField: 'status',
+      selector: row => row.status,
+      width: "10%",
+      cell: row => (
+        <Badge style={{ cursor: "pointer" }} className='text-capitalize'
+          onClick={e => {
+            e.preventDefault()
+            store.dispatch(
+              updateProduct({
+                status: !row.status,
+                id: row._id
+              })
+            )
+          }}
+          color={statusObj[row.status === true ? 'active' : 'inactive']} pill>
+          {row.status === true ? 'active' : 'inactive'}
+        </Badge>
+      )
+    },
+    {
+      name: 'Actions',
+      width: "40%",
+      cell: row => (
+        <>
+          {/* Radio Buttons for Status */}
+          <div className="d-flex align-items-center">
+            {/* Approved Radio Button */}
+            <div className="form-check form-check-inline me-2">
+              <Input
+                type="radio"
+
+                name={`status-${row._id}`}
+                id={`approved-${row._id}`}
+                checked={row.approved === "APPROVED"}
+                onChange={() => handleStatus(row._id, "APPROVED")}
+
+
+              />
+              <Label for={`approved-${row._id}`} className="form-check-label">
+                Approved
+              </Label>
+            </div>
+
+            {/* Pending Radio Button */}
+            <div className="form-check form-check-inline me-2">
+              <Input
+                type="radio"
+                name={`status-${row._id}`}
+                id={`pending-${row._id}`}
+                checked={row.approved === "PENDING"}
+                onChange={() => handleStatus(row._id, "PENDING")}
+              />
+              <Label for={`pending-${row._id}`} className="form-check-label">
+                Pending
+              </Label>
+            </div>
+
+            {/* Rejected Radio Button */}
+            <div className="form-check form-check-inline">
+              <Input
+                type="radio"
+                name={`status-${row._id}`}
+                id={`rejected-${row._id}`}
+                checked={row.approved === "REJECTED"}
+                onChange={() => handleStatus(row._id, "REJECTED")}
+              />
+              <Label for={`rejected-${row._id}`} className="form-check-label">
+                Rejected
+              </Label>
+            </div>
+          </div>       
+        </>
+      )
+    },
+    {
+      name: 'Actions',
+      width: "10%",
+      cell: row => (
+        <>
+
+          <Link color='primary' to={`/products/edit-product/${row._id}`} className='btn-sm ms-2  btn-primary' onClick={() => {
+
+            store.dispatch(getProduct(row._id))
+          }}>     <Edit size={14} /></Link>
+          <Button color='danger' className='ms-2 btn-sm'
+            onClick={e => {
+              e.preventDefault()
+              store.dispatch(deleteProduct(row._id))
+            }}
+          >    <Trash2 size={14} /></Button>
+        </>
+        // <div className='column-action'>
+        //   <UncontrolledDropdown>
+        //     <DropdownToggle tag='div' className='btn btn-sm'>
+        //       <MoreVertical size={14} className='cursor-pointer' />
+        //     </DropdownToggle>
+        //     <DropdownMenu>
+        //       <DropdownItem tag='a' href='/' className='w-100' onClick={e => { 
+        //         e.preventDefault() 
+        //         store.dispatch(getProduct(row._id))
+        //         }}
+        //         >
+        //         <Archive size={14} className='me-50' />
+        //         <span className='align-middle'>Edit</span>
+        //       </DropdownItem>
+        //       <DropdownItem
+        //         tag='a'
+        //         href='/'
+        //         className='w-100'
+        //         onClick={e => {
+        //           e.preventDefault()
+        //           store.dispatch(deleteProduct(row._id))
+        //         }}
+        //       >
+        //         <Trash2 size={14} className='me-50' />
+        //         <span className='align-middle'>Delete</span>
+        //       </DropdownItem>
+        //     </DropdownMenu>
+        //   </UncontrolledDropdown>
+        // </div>
+      )
+    }
+  ]
   return (
     <Fragment>
       {/* <Card>

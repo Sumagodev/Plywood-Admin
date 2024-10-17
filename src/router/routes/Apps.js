@@ -32,6 +32,7 @@ import WebsiteData from '../../views/WebsiteData/list'
 import Seo from '../../views/seo/list'
 import AddSeo from '../../views/seo/list/AddSeo'
 import HomepageBannersimges from '../../views/homepageBannersimges/list'
+import Advertisementbanners from '../../views/advertisementbanners/list'
 const Chat = lazy(() => import('../../views/apps/chat'))
 const Todo = lazy(() => import('../../views/apps/todo'))
 const Email = lazy(() => import('../../views/apps/email'))
@@ -322,6 +323,10 @@ const AppRoutes = [
     path: '/verified-user'
   },
   {
+    element: <Advertisementbanners />,
+    path: '/advertisementbanners'
+  },
+  {
     element: <Blogs />,
     path: '/blogs/view'
   },
@@ -368,7 +373,7 @@ const AppRoutes = [
     roleArr: ["ADMIN"]
   },
   {
-    element: <HomepageBannersimges/>,
+    element: <HomepageBannersimges />,
     path: '/apps/homepageBannersimges',
     roleArr: ["ADMIN"]
   }
