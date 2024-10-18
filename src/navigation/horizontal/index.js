@@ -88,14 +88,14 @@ export default [...dashboards, ...apps, ...product, ...formsAndTables, ...subscr
     navLink: '/verified-user'
 },
 {
-    id: 'dashboards2',
+    id: 'dashboards3',
     title: 'Advertisement Banner',
     icon: <Users />,
     roleArr: ["ADMIN", ROLES_CONSTANT.SUBADMIN],
     navLink: '/advertisementbanners'
 },
 {
-    id: 'dashboards2',
+    id: 'dashboards4',
     title: 'Promotions',
     icon: <Eye />,
     roleArr: ["ADMIN", ROLES_CONSTANT.SUBADMIN],

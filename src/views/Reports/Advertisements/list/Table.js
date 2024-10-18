@@ -1,5 +1,6 @@
 // ** React Imports
 import { Fragment, useEffect, useState } from 'react'
+import { generateFilePath } from '../../../../services/url.service'
 
 // ** Table Columns
 import { columns } from './columns'
@@ -124,6 +125,26 @@ const SubscriptionList = () => {
       cell: row => row?.userId?.name
     },
     {
+      name: 'Image',
+      sortable: false,
+      sortField: 'image',
+      cell: row => <img src={generateFilePath(row?.image)} style={{ height: 50, width: 50 }} />
+    },
+    {
+      name: 'Product Name',
+      sortable: false,
+      sortField: 'name',
+      width: "25%",
+      cell: row => row?.productId?.name
+    },
+    {
+      name: 'Message',
+      sortable: false,
+      sortField: 'discounttype',
+      // width: "25%",
+      cell: row => row?.message
+    },
+    {
       name: 'Approved',
       sortable: true,
       sortField: 'status',
@@ -152,20 +173,6 @@ const SubscriptionList = () => {
           />
         </div>
       )
-    },
-    {
-      name: 'Product Name',
-      sortable: false,
-      sortField: 'name',
-      width: "25%",
-      cell: row => row?.productId?.name
-    },
-    {
-      name: 'Message',
-      sortable: false,
-      sortField: 'discounttype',
-      // width: "25%",
-      cell: row => row?.message
     },
     {
       name: 'Start Date',
