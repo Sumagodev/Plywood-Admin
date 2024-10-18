@@ -31,7 +31,7 @@ export const getadvertisementbanners = createAsyncThunk('advertisementbanners/ge
   const response = await getadvertisementbannersApi(query)
   return {
     params,
-    data: response.data.data,
+    data: response.data.bannerImages,
     totalCount: response.data.totalCount
   }
 })
@@ -62,7 +62,7 @@ export const addadvertisementbanners = createAsyncThunk('advertisementbanners/ad
 })
 
 
-export const updateHomepageBanner = createAsyncThunk('advertisementbanners/updateHomepageBanner', async (formData, { dispatch, getState }) => {
+export const updateadvertisementbanners = createAsyncThunk('advertisementbanners/updateHomepageBanner', async (formData, { dispatch, getState }) => {
 
   try {
     const res = await updateadvertisementbannersApi(formData, formData.id)
@@ -120,9 +120,9 @@ export const advertisementbannerslice = createSlice({
       .addCase(addadvertisementbanners.fulfilled, (state, action) => {
         // state.selectedFlashSales = null
       })
-      // .addCase(updateHomepageBanner.fulfilled, (state, action) => {
-      //   state.selectedCategory = null
-      // })
+      .addCase(updateadvertisementbanners.fulfilled, (state, action) => {
+        state.selectedCategory = null
+      })
       .addCase(deleteadvertisementbanners.fulfilled, (state, action) => {
         state.selectedObj = null
       })

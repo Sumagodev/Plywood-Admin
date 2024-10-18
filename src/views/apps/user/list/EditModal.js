@@ -95,7 +95,7 @@ const EditModal = ({ open, toggleFn, selectedUser }) => {
     // ** Store Vars
 
     const checkIsUser = () => {
-        if ((type === ROLES_CONSTANT.DISTRIBUTOR || type === ROLES_CONSTANT.MANUFACTURER || type === ROLES_CONSTANT.DEALER)) {
+        if ((type === ROLES_CONSTANT.DISTRIBUTOR || type === ROLES_CONSTANT.MANUFACTURER || type === ROLES_CONSTANT.DEALER || type === ROLES_CONSTANT.CONTRACTOR || type === ROLES_CONSTANT.RETAILER)) {
             return true
         } else {
             return false
@@ -466,7 +466,7 @@ const EditModal = ({ open, toggleFn, selectedUser }) => {
                         onChange={(e) => settype(e.value)}
                     />
 
-                    {(type === ROLES_CONSTANT.DISTRIBUTOR || type === ROLES_CONSTANT.MANUFACTURER || type === ROLES_CONSTANT.DEALER) &&
+                    {(type === ROLES_CONSTANT.DISTRIBUTOR || type === ROLES_CONSTANT.MANUFACTURER || type === ROLES_CONSTANT.DEALER || type === ROLES_CONSTANT.CONTRACTOR || type === ROLES_CONSTANT.RETAILER) &&
                         <div className="row">
 
                             <div className="col-md-6 mt-2">

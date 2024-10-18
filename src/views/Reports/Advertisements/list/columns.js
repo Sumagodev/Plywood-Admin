@@ -6,6 +6,7 @@ import Avatar from '@components/avatar'
 
 // ** Store & Actions
 // import { getProduct, deleteProduct } from '../store'
+import { useDispatch, useSelector } from 'react-redux'
 
 // ** Icons Imports
 import { Database, Edit2, Eye, Settings, Slack, User } from 'react-feather'
@@ -14,9 +15,10 @@ import { Database, Edit2, Eye, Settings, Slack, User } from 'react-feather'
 import moment from 'moment'
 import { updateProductApi } from '../../../../services/product.service'
 import { toastError, toastSuccess } from '../../../../utility/toastutill'
-
+import { Label, Row, Col, Input, Form, Button } from 'reactstrap'
 // ** Renders Client Columns
 const renderClient = row => {
+
   if (row.avatar.length) {
     return <Avatar className='me-1' img={row.avatar} width='32' height='32' />
   } else {
@@ -102,6 +104,32 @@ export const columns = [
     sortField: 'name',
     width: "15%",
     cell: row => row?.userId?.name
+  },
+  {
+    name: 'Approved',
+    sortable: true,
+    sortField: 'status',
+    selector: row => row.isVerified,
+    width: "15%",
+    cell: row => (
+      <div className='form-check form-switch'>
+        <Input
+          type='switch'
+          name='customSwitch'
+          id={`customSwitch-${row._id}`}
+          checked={row.isVerified} // Use the boolean value directly
+          onChange={e => {
+            e.preventDefault()
+            dispatch(
+              updatePromotions({
+                isVerified: !row.isVerified, // Toggle the boolean value
+                id: row._id
+              })
+            )
+          }}
+        />
+      </div>
+    )
   },
   {
     name: 'Product Name',

@@ -5,7 +5,7 @@ import axios from 'axios'
 const serverUrl = `${BaseUrl}/BannerImage`
 
 export const addadvertisementbannersApi = (formData) => {
-  return axiosInstance.post(`${serverUrl}/`, formData)
+  return axiosInstance.post(`${serverUrl}/postbanner`, formData)
 }
 
 export const getadvertisementbannersApi = (query) => {
@@ -13,15 +13,15 @@ export const getadvertisementbannersApi = (query) => {
 }
 
 export const getByIdApi = (id) => {
-  return axiosInstance.get(`${serverUrl}/getById/${id}`)
+  return axiosInstance.get(`${serverUrl}/getBannerImagesByUserId/${id}`)
 }
 
 export const deleteadvertisementbannersApi = (id) => {
-  return axiosInstance.delete(`${serverUrl}/deleteById/${id}`)
+  return axiosInstance.delete(`${serverUrl}/deletebanner/${id}`)
 }
 
 export const updateadvertisementbannersApi = (formData, id) => {
-  return axiosInstance.patch(`${serverUrl}/updateById/${id}`, formData)
+  return axiosInstance.put(`${serverUrl}/updatebanner/${id}`, formData)
 }
 
 // *************************

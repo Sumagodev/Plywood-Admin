@@ -3,10 +3,11 @@ import { Fragment, useEffect, useState } from 'react'
 
 // ** Table Columns
 import { columns } from './columns'
-
+import { updatePromotions, getPromotions } from '../store'
 // ** Store & Actions
 import { useDispatch, useSelector } from 'react-redux'
-import { getPromotions } from '../store'
+
+import moment from 'moment'
 
 // ** Third Party Components
 import DataTable from 'react-data-table-component'
@@ -26,8 +27,8 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 const SubscriptionList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.Promotions)
-  const FlashSalesArr = useSelector(state => state.Promotions.data)
+  const store = useSelector(state => state.promotions)
+  const FlashSalesArr = useSelector(state => state.promotions.data)
   // const allData = useSelector(state => state.products.allData)
 
   const [dataArr, setDataArr] = useState([])
@@ -107,7 +108,90 @@ const SubscriptionList = () => {
       })
     )
   }
+  const columns = [
+    {
+      name: 'S.no',
+      sortable: false,
+      sortField: 'index',
+      width: "5.6%",
+      cell: (row, index) => (index + 1)
+    },
+    {
+      name: 'Owner Name',
+      sortable: false,
+      sortField: 'name',
+      width: "15%",
+      cell: row => row?.userId?.name
+    },
+    {
+      name: 'Approved',
+      sortable: true,
+      sortField: 'status',
+      selector: row => row.isVerified,
+      width: "15%",
+      cell: row => (
+        <div className='form-check form-switch'>
+          <Input
+            type='switch'
+            name='customSwitch'
+            id={`customSwitch-${row._id}`}
+            checked={row.isVerified}
+            onChange={e => {
+              e.preventDefault()
+              // Dispatch the update action to toggle the verified status
+              dispatch(
+                updatePromotions({
+                  isVerified: !row.isVerified, // Toggle the boolean value
+                  id: row._id
+                })
+              ).then(() => {
+                // Re-fetch promotions to refresh the page
+                handlegetPromotions()
+              })
+            }}
+          />
+        </div>
+      )
+    },
+    {
+      name: 'Product Name',
+      sortable: false,
+      sortField: 'name',
+      width: "25%",
+      cell: row => row?.productId?.name
+    },
+    {
+      name: 'Message',
+      sortable: false,
+      sortField: 'discounttype',
+      // width: "25%",
+      cell: row => row?.message
+    },
+    {
+      name: 'Start Date',
+      sortable: false,
+      sortField: 'S Date',
+      cell: row => `${moment(row?.startDate).format("DD-MM-YYYY")}`
+    },
+    {
+      name: 'End Date',
+      sortable: false,
+      sortField: 'e Date',
+      cell: row => `${moment(row?.endDate).format("DD-MM-YYYY")}`
+    }
+    // {
+    //   name: 'Actions',
+    //   cell: row => (
+    //     <>
 
+    //       <Link color='primary' to={`/Promotions/view-details/${row._id}`} className='btn-sm  btn-primary'>
+    //         <Eye size={14} />
+    //       </Link>
+
+    //     </>
+    //   )
+    // }
+  ]
   // ** Custom Pagination
   const CustomPagination = () => {
     const count = Number(Math.ceil(store.total / rowsPerPage))

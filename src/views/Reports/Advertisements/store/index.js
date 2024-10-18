@@ -1,26 +1,15 @@
 // ** Redux Imports
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { getAllPromotions } from '../../../../services/promotions.service'
+import { getAllPromotions, updatePromotion } from '../../../../services/promotions.service'
 
-// ** Axios Imports
+// ** Fetch promotions with query params
+export const getPromotions = createAsyncThunk('Promotions/GetPromotions', async (params = {}) => {
+  let query = ''
+  if (params.q) query += `&q=${params.q}`
+  if (params.perPage) query += `&perPage=${params.perPage}`
+  if (params.page) query += `&page=${params.page}`
+  if (params.status) query += `&status=${params.status}`
 
-
-export const getPromotions = createAsyncThunk('Promotions/GetPromotions', async params => {
-  let query = ``
-  if (params) {
-    if (params.q) {
-      query = `${query}&q=${params.q}`
-    }
-    if (params.perPage) {
-      query = `${query}&perPage=${params.perPage}`
-    }
-    if (params.page) {
-      query = `${query}&page=${params.page}`
-    }
-    if (params.status) {
-      query = `${query}&status=${params.status}`
-    }
-  }
   const response = await getAllPromotions(query)
   return {
     params,
@@ -28,18 +17,23 @@ export const getPromotions = createAsyncThunk('Promotions/GetPromotions', async 
     promotionCount: response.data.AdvertisementsubscriptionCount
   }
 })
-export const getFlashSalesById = createAsyncThunk('FlashSales/getFlashSalesById', async id => {
+
+// ** Update a specific promotion
+export const updatePromotions = createAsyncThunk('advertisementbanners/updateHomepageBanner', async (formData, { dispatch }) => {
   try {
-    const response = await getFlashSalebyId(id)
-    toastSuccess(response.data.message)
-    return response.data.data
+    const res = await updatePromotion(formData, formData.id)
+    if (res.data.success) {
+      toastSuccess(res.data.message)
+      await dispatch(getPromotions())  // Fetch updated promotions
+    }
+    return res.data.success || false
   } catch (error) {
-    toastError(error)
-    return error
+    toastError(error.message)
+    return false
   }
 })
 
-
+// ** Promotions slice with initial state and async reducers
 export const PromotionsSlice = createSlice({
   name: 'promotions',
   initialState: {
@@ -50,7 +44,7 @@ export const PromotionsSlice = createSlice({
     success: false
   },
   reducers: {
-
+    // Define any needed reducers here (currently empty)
   },
   extraReducers: builder => {
     builder
@@ -59,10 +53,10 @@ export const PromotionsSlice = createSlice({
         state.params = action.payload.params
         state.total = action.payload.promotionCount
       })
-      .addCase(getFlashSalesById.fulfilled, (state, action) => {
-        state.selectedPromotions = action.payload
+      // Ensure this action exists or remove it from extraReducers
+      .addCase(updatePromotions.fulfilled, (state) => {
+        state.selectedPromotions = null
       })
-
   }
 })
 

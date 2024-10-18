@@ -14,7 +14,7 @@ import {
 // ** Store & Actions
 import { useDispatch, useSelector } from 'react-redux'
 import FileUpload from '../../../utility/FileUpload'
-import { addadvertisementbanners, updateHomepageBanner } from '../store'
+import { addadvertisementbanners, updateadvertisementbanners } from '../store'
 import { generateFilePath } from '../../../services/url.service'
 
 const AddModal = ({ open, toggleSidebar }) => {
@@ -31,7 +31,7 @@ const AddModal = ({ open, toggleSidebar }) => {
         toggleSidebar()
         if (isUpdated === true) {
             dispatch(
-                updateHomepageBanner({
+                updateadvertisementbanners({
                     image,
                     id: store?.selectedObj?._id
                 })

@@ -44,13 +44,6 @@ export default [...dashboards, ...apps, ...product, ...formsAndTables, ...subscr
             navLink: '/flash-sales/view'
         },
         {
-            id: 'view-Promotions',
-            title: 'Promotions',
-            icon: <Eye />,
-            roleArr: ["ADMIN", ROLES_CONSTANT.SUBADMIN],
-            navLink: '/Promotions/view'
-        },
-        {
             id: 'view-Subscriptions',
             title: 'Subscriptions',
             icon: <Eye />,
@@ -93,5 +86,20 @@ export default [...dashboards, ...apps, ...product, ...formsAndTables, ...subscr
     icon: <Users />,
     roleArr: ["ADMIN", ROLES_CONSTANT.SUBADMIN],
     navLink: '/verified-user'
+},
+{
+    id: 'dashboards2',
+    title: 'Advertisement Banner',
+    icon: <Users />,
+    roleArr: ["ADMIN", ROLES_CONSTANT.SUBADMIN],
+    navLink: '/advertisementbanners'
+},
+{
+    id: 'dashboards2',
+    title: 'Promotions',
+    icon: <Eye />,
+    roleArr: ["ADMIN", ROLES_CONSTANT.SUBADMIN],
+    navLink: '/Promotions/view'
+
 }
 ]

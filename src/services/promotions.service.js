@@ -8,3 +8,7 @@ export const getAllPromotions = async (query) => {
     return axiosInstance.get(`${serverUrl}/?${query}`)
 }
 
+export const updatePromotion = (formData, id) => {
+    return axiosInstance.patch(`${serverUrl}/updateById/${id}`, formData)
+  }
+  

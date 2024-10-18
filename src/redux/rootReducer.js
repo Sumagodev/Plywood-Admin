@@ -36,6 +36,7 @@ import homepageBanners from '@src/views/homepageBanners/store'
 import homepageBannersimges from '@src/views/homepageBannersimges/store'
 import quickenqury from '@src/views/apps/Quick reviews/store'
 import VerifiedUser from '@src/views/apps/VerifiedUser/store'
+import advertisementbanners from '@src/views/advertisementbanners/store'
 const rootReducer = {
   auth,
   categories,
@@ -61,7 +62,7 @@ const rootReducer = {
   FlashSales,
   AdvertisementSubscriptions,
   Tickets,
-  Promotions: promotions,
+  promotions,
   UserRequirements,
   Leads,
   Blogs,
@@ -73,7 +74,8 @@ const rootReducer = {
   Seo,
   quickenqury,
   homepageBannersimges,
-  VerifiedUser
+  VerifiedUser,
+  advertisementbanners
 
 }
 

@@ -6,7 +6,7 @@ import { columns } from './columns'
 
 // ** Store & Actions
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteadvertisementbanners, getadvertisementbanners, getadvertisementbannerssById } from '../store'
+import { deleteadvertisementbanners, getadvertisementbanners, getadvertisementbannerssById, updateadvertisementbanners } from '../store'
 
 // ** Third Party Components
 import DataTable from 'react-data-table-component'
@@ -16,7 +16,7 @@ import ReactPaginate from 'react-paginate'
 // ** Reactstrap Imports
 import {
   Button,
-  Card, Col, Input, Row
+  Card, Col, Input, Row, Badge
 } from 'reactstrap'
 
 // ** Styles
@@ -31,7 +31,7 @@ const TicketList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state.advertisementbanners)
-  const FlashSalesArr = useSelector(state => state.bannerImages)
+  const FlashSalesArr = useSelector(state => state.advertisementbanners.data)
 
   const [dataArr, setDataArr] = useState([])
 
@@ -88,7 +88,11 @@ const TicketList = () => {
       page: currentPage
     }))
   }
-
+  const statusObj = {
+    pending: 'light-warning',
+    active: 'light-success',
+    inactive: 'light-secondary'
+  }
 
   useEffect(() => {
     handleGetFlashSales()
@@ -162,6 +166,32 @@ const TicketList = () => {
       selector: row => <img src={generateFilePath(row?.image)} style={{ height: 50, width: 50 }} />
     },
     {
+      name: 'Approved',
+      sortable: true,
+      sortField: 'status',
+      selector: row => row.isVerified,
+      width: "15%",
+      cell: row => (
+        <div className='form-check form-switch'>
+          <Input
+            type='switch'
+            name='customSwitch'
+            id={`customSwitch-${row._id}`}
+            checked={row.isVerified} // Use the boolean value directly
+            onChange={e => {
+              e.preventDefault()
+              dispatch(
+                updateadvertisementbanners({
+                  isVerified: !row.isVerified, // Toggle the boolean value
+                  id: row._id
+                })
+              )
+            }}
+          />
+        </div>
+      )
+    },
+    {
       name: 'Actions',
       cell: row => (
         <>
@@ -186,51 +216,7 @@ const TicketList = () => {
       <Card className='overflow-hidden'>
         <div className='react-dataTable'>
           <div className='invoice-list-table-header w-100 me-1 ms-50 mt-2 px-4 mb-2'>
-            <Row>
-              <Col xl='6' className='d-flex align-items-center p-0'>
-                <div className='d-flex align-items-center w-100'>
-                  <label htmlFor='rows-per-page'>Show</label>
-                  <Input
-                    className='mx-50'
-                    type='select'
-                    id='rows-per-page'
-                    value={rowsPerPage}
-                    onChange={handlePerPage}
-                    style={{ width: '5rem' }}
-                  >
-                    <option value='1'>1</option>
-                    <option value='10'>10</option>
-                    <option value='25'>25</option>
-                    <option value='50'>50</option>
-                    <option value='100'>100</option>
-                    <option value='500'>500</option>
-                  </Input>
-                  <label htmlFor='rows-per-page'>Entries</label>
-                </div>
-              </Col>
-              <Col
-                xl='6'
-                className='d-flex justify-content-end pe-3'
-              >
-                <div className='d-flex align-items-center mb-sm-0 mb-1 me-1'>
-                  <label className='mb-0' htmlFor='search-invoice'>
-                    Search:
-                  </label>
-                  <Input
-                    id='search-invoice'
-                    className='ms-50 w-100'
-                    type='text'
-                    value={searchTerm}
-                    onChange={e => handleFilter(e.target.value)}
-                  />
-                </div>
-                <div className='d-flex align-items-center table-header-actions'>
-                  <Button className='add-new-user' color='primary' onClick={toggleSidebar}>
-                    Add New
-                  </Button>
-                </div>
-              </Col>
-            </Row>
+          
           </div>
           <DataTable
             noHeader
@@ -239,7 +225,7 @@ const TicketList = () => {
             columns={columns}
             className='react-dataTable'
             paginationComponent={CustomPagination}
-            data={[...FlashSalesArr]}
+            data={FlashSalesArr}
           />
         </div>
       </Card>

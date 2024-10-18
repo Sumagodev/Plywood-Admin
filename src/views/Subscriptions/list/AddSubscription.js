@@ -33,6 +33,7 @@ const AddSubscription = () => {
   const [advertisementDays, setAdvertisementDays] = useState(0)
   const [rolesOptions, setrolesOptions] = useState([])
   const [role, setRole] = useState("")
+  const [subscriptionType, setSubscriptionType] = useState('PREMIUM')
 
   const onSubmit = () => {
 
@@ -100,7 +101,8 @@ const AddSubscription = () => {
       includesFlashSales,
       includesAdvertisements,
       includesValidity,
-      role: role?.value
+      role: role?.value,
+      subscriptiontype:subscriptionType
     }
 
     if (includesAdvertisements) {
@@ -146,6 +148,7 @@ const AddSubscription = () => {
       setIncludesValidity(subscriptionObj?.includesValidity)
       setNumberOfAdvertisement(subscriptionObj?.numberOfAdvertisement)
       setAdvertisementDays(subscriptionObj?.advertisementDays)
+      setSubscriptionType(subscriptionObj?.subscriptionType)
     } else {
       setname("")
       setDescription("")
@@ -160,6 +163,7 @@ const AddSubscription = () => {
       setAdvertisementDays(0)
       setNumberOfSales(1)
       setMessageArr([{ message: "" }])
+
     }
 
   }, [subscriptionObj, isEditing])
@@ -253,7 +257,32 @@ const AddSubscription = () => {
               onChange={(val) => setRole(val)}
             />
           </Col>
+          <Col className='mb-1' xl='6' md='6' sm='12'>
+            <Label>Subscription Type</Label>
+            <Row>
+              <Col xs={4}>  <Label check>
+                <Input
+                  type="radio"
+                  name="subscriptionType"
+                  value="REGULAR"
+                  checked={subscriptionType === 'REGULAR'}
+                  onChange={(e) => setSubscriptionType(e.target.value)}
+                />
+                Regular
+              </Label></Col>
+              <Col xs={6}>   <Label check>
+                <Input
+                  type="radio"
+                  name="subscriptionType"
+                  value="PREMIUM"
+                  checked={subscriptionType === 'PREMIUM'}
+                  onChange={(e) => setSubscriptionType(e.target.value)}
+                />
+                Premium
+              </Label></Col>
+            </Row>
 
+          </Col>
         </Row>
         <Row>
           <Col className='mb-1 my-3' xl='2' md='2' sm='12'>
